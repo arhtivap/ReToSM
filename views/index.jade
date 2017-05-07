@@ -16,6 +16,11 @@ block content
       .col-md-6
         a(href=post.data.url)
           = post.data.title
+        form(action="/subreddit/tweet")
+          .form-group
+            textarea.form-control(name="text")= post.data.title
+          input(type="hidden", name="url", value=post.data.url)
+          input.btn.btn-primary(type="Submit", value="Tweet")
       .col-md-2
         a.btn.btn-default(href="/subreddit/tweet?url="+post.data.url+"&text="+post.data.title)
           = "Tweet"
