@@ -1,0 +1,27 @@
+{
+  "name": "retotw-app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.8.1",
+    "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-twitter": "^1.0.4",
+    "pug": "^2.0.0-beta.12",
+    "request": "^2.81.0",
+    "serve-favicon": "~2.4.2"
+  },
+  "description": "Basic app for twitter handling",
+  "main": "app.js",
+  "author": "",
+  "license": "ISC"
+}

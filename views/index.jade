@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+
+  a(href="/authn/twitter") Sign in with Twitter
+  br
+  a(href="/authz/twitter") Authorize this Twitter App
+
+  - each post in body.data.children
+    .post
+      button= post.data.ups
+      img(src=post.data.thumbnail)
+      a(href=post.data.url)
+        = post.data.title
+      a(href="/subreddit/tweet?url="+post.data.url+"&text="+post.data.title)| Tweet
