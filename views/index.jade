@@ -18,7 +18,7 @@ block content
           = post.data.title
         form(action="/subreddit/tweet")
           .form-group
-            textarea.form-control(name="text")= post.data.title
+            textarea.form-control(name="text")= post.data.title+"\n\n"+"PC: /u/"+post.data.author
           input(type="hidden", name="url", value=post.data.url)
           input.btn.btn-primary(type="Submit", value="Tweet")
       .col-md-2

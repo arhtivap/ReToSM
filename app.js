@@ -119,6 +119,7 @@ app.use('/users', users);
 app.get('/r/:subreddit?', function(req, res) {
   var subreddit= req.params.subreddit;
   request("http://www.reddit.com/r/"+subreddit+"/hot"+".json", function(error, response, body) {
+    console.log(body);
     res.render('index', {title: 'Reddit', body: JSON.parse(body)})
   });
 });
