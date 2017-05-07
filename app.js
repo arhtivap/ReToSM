@@ -18,7 +18,7 @@ var oa = {};
 var twitterAuthn = {};
 var twitterAuthz = {};
 var fs = require('fs');
-
+var flash = require('express-flash');
 
 function initTwitterOauth() {
   var OAuth= require('oauth').OAuth;
@@ -114,25 +114,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', index);
 app.use('/users', users);
+app.use(flash());
 
 
 app.get('/r/:subreddit?', function(req, res) {
   var subreddit= req.params.subreddit;
   request("http://www.reddit.com/r/"+subreddit+"/hot"+".json", function(error, response, body) {
     console.log(body);
-    res.render('index', {title: 'Reddit', body: JSON.parse(body)})
+    res.render('index', {title: 'Reddit', body: JSON.parse(body), subreddit: subreddit})
   });
 });
 
 app.get('/subreddit/tweet',function(req,res) {
   var url= req.query.url;
   var text= req.query.text;
+  var referrer = req.query.referrer;
 
   request({"url":url, "encoding":'base64'}, function(error, response, body) {
     uploadMedia(body, function (error, data) {
       if(error) {
         console.log(require('util').inspect(error));
-        res.end('bad stuff happened while uploading media');
+        req.flash('error', 'Something bad happened.')
+        res.redirect("/r/"+subreddit);
       } else {
         console.log(data);
         var response_json = JSON.parse(data);
@@ -140,10 +143,12 @@ app.get('/subreddit/tweet',function(req,res) {
         makeTweet({"status": text, "media_ids": [response_json.media_id_string]}, function (error, data) {
           if(error) {
             console.log(require('util').inspect(error));
-            res.end('bad stuff happened while updating status');
+            req.flash('error', 'Something bad happened.')
+            res.redirect("/r/"+subreddit);
           } else {
             console.log(data);
-            res.end('go check your tweets!');
+            req.flash('info', 'Your post has been tweeted successfully.')
+            res.redirect("/r/"+referrer);
           }
         });
       }
@@ -187,7 +192,7 @@ app.get('/twitter/tweet', function (req, res) {
 });
 
 app.get('/', function(req, res) {
-  res.send("Welcome to R World")
+  res.render("home", {display_text: "Welcome to R world!"})
 });
 
 app.get('/upload/test', function(req, res) {

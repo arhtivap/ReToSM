@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= display_text
+
+  - if(messages.info)
+    - each msg in messages.info
+      p.info.bg-info= msg
+  - if(messages.error)
+    - each msg in messages.error
+      p.error.bg-danger= msg

@@ -3,6 +3,13 @@ extends layout
 block content
   h1= title
 
+  - if(messages.info)
+    - each msg in messages.info
+      p.info.bg-info= msg
+  - if(messages.error)
+    - each msg in messages.error
+      p.error.bg-danger= msg
+
   a(href="/authn/twitter") Sign in with Twitter
   br
   a(href="/authz/twitter") Authorize this Twitter App
@@ -20,6 +27,7 @@ block content
           .form-group
             textarea.form-control(name="text")= post.data.title+"\n\n"+"PC: /u/"+post.data.author
           input(type="hidden", name="url", value=post.data.url)
+          input(type="hidden", name="referrer", value=subreddit)
           input.btn.btn-primary(type="Submit", value="Tweet")
       .col-md-2
         a.btn.btn-default(href="/subreddit/tweet?url="+post.data.url+"&text="+post.data.title)
